@@ -66,16 +66,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         //3、返回实体对象
         return employee;
     }
+
     /**
-     *
      * 新增员工
+     *
      * @param employeeDTO
      */
 
     public void save(EmployeeDTO employeeDTO) {
         System.out.println("当前线程的id:" + Thread.currentThread().getId());
-    Employee employee = new Employee();
-    //对象数据拷贝
+        Employee employee = new Employee();
+        //对象数据拷贝
         BeanUtils.copyProperties(employeeDTO, employee);
         //设置账号状态|
         employee.setStatus(StatusConstant.ENABLE);
@@ -91,19 +92,33 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeMapper.insert(employee);
 
     }
-/**
+
+    /**
      * 员工分页查询
+     *
      * @param employeePageQueryDTO
      * @return
      */
-     public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
-        PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize());
+    public PageResult pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
+        PageHelper.startPage(employeePageQueryDTO.getPage(), employeePageQueryDTO.getPageSize());
 
-         Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
+        Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);
 
-         long total = page.getTotal();
-         List<Employee> records = page.getResult();
+        long total = page.getTotal();
+        List<Employee> records = page.getResult();
 
-         return new PageResult(total, records);
+        return new PageResult(total, records);
+    }
+
+    /**
+     * 员工账号启用禁用功能
+     */
+    public void startOrStop(Integer status, Long id) {
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id)
+                .build();
+        employeeMapper.update(employee);
+
     }
 }
