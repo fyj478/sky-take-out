@@ -14,6 +14,10 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import com.sky.json.JacksonObjectMapper;
+import  org.springframework.http.converter.HttpMessageConverter;
+import  org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import  java.util.List;
 
 /**
  * 配置类，注册web层相关组件
@@ -65,4 +69,19 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
+
+    /**
+     * 扩展Spring MVC的消息转换器
+     * @param converters
+     */
+    protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        log.info("扩展消息转换器...");
+        // 创建消息转换器对象
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        // 设置对象转换器，使用自定义的JacksonObjectMapper
+        converter.setObjectMapper(new JacksonObjectMapper());
+        // 将自定义的消息转换器加入到容器中
+        converters.add(0, converter);
+    }
 }
+

@@ -6,11 +6,14 @@ import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.DishService;
 import com.sky.service.impl.DishServiceImpl;
+import com.sky.vo.DishVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -35,6 +38,29 @@ public class DishController {
         log.info("分页查询接口：{}", dishPageQueryDTO);
         PageResult pageResult = dishService.pageQuery(dishPageQueryDTO);
         return Result.success(pageResult);
+    }
 
+    @DeleteMapping
+    @ApiOperation("批量删除接口")
+    public Result delete(@RequestParam List<Long> ids){
+        log.info("批量删除接口：{}", ids);
+        dishService.deleteBatch(ids);
+        return Result.success();
+    }
+
+    @GetMapping("{id}")
+    @ApiOperation("根据id查询菜品接口")
+    public Result<DishVO> getById(@PathVariable Long id){
+        log.info("根据id查询菜品接口：{}", id);
+        DishVO dishVO = dishService.getByIdWithFlavors(id);
+        return Result.success(dishVO);
+    }
+
+    @PutMapping()
+    @ApiOperation("修改菜品接口")
+    public Result update(@RequestBody DishDTO dishDTO){
+        log.info("修改菜品接口：{}", dishDTO);
+        dishService.updateWithFlavor(dishDTO);
+        return Result.success();
     }
 }
