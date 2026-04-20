@@ -14,8 +14,7 @@ import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
-import com.sky.result.Result;
-import com.sky.service.DishService;
+import com.sky.service.SetMealService;
 import com.sky.vo.SetmealVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -28,7 +27,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class SetMealService {
+public class SetMealServiceImpl implements SetMealService {
 
     @Autowired
     private SetmealMapper setmealMapper;

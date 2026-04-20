@@ -2,10 +2,9 @@ package com.sky.controller.admin;
 
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
-import com.sky.entity.Setmeal;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
-import com.sky.service.impl.SetMealService;
+import com.sky.service.impl.SetMealServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +24,7 @@ public class SetMealController {
      * @return
      */
     @Autowired
-    private SetMealService setMealService;
+    private SetMealServiceImpl setMealService;
     @PostMapping
     @ApiOperation("新增套餐")
     public Result save(@RequestBody SetmealDTO setmealDTO){
